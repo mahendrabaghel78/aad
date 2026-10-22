@@ -7,7 +7,7 @@ No app install. No account. No permanent cloud copy.
 > **Live app:** deploy the included Render Blueprint with one click.  
 > **GitHub Pages cannot host QuickDrop** because it only serves static files; the live app needs the Node/Socket.IO server in this repository.
 >
-> [Deploy QuickDrop to Render](https://render.com/deploy?repo=https://github.com/mahendrabaghe/esay_file_transfer)
+> [Deploy QuickDrop to Render](https://render.com/deploy?repo=https://github.com/mahendrabaghel78/aad)
 
 ## Highlights
 

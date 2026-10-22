@@ -4,10 +4,10 @@ Private, instant file sharing between any two devices. Open a drop on the laptop
 
 No app install. No account. No permanent cloud copy.
 
-> **Live app:** deploy the included Render Blueprint with one click.  
-> **GitHub Pages cannot host QuickDrop** because it only serves static files; the live app needs the Node/Socket.IO server in this repository.
+> **Frontend:** GitHub Pages can host the static React app. File transfers still require a separately hosted backend.
+> **Backend:** the included Render Blueprint deploys the Node/Socket.IO server with the frontend.
 >
-> [Deploy QuickDrop to Render](https://render.com/deploy?repo=https://github.com/mahendrabaghel78/aad)
+> [Deploy the full app to Render](https://render.com/deploy?repo=https://github.com/mahendrabaghel78/aad)
 
 ## Highlights
 
@@ -44,6 +44,12 @@ npm start
 Open <http://localhost:3001>. The Express server serves both the API, the Socket.IO endpoint, and the built React app.
 
 For any non-local hostname, use HTTPS so tokens and file bytes travel over TLS and the browser can open secure WebSockets (`wss://`). QuickDrop also needs a secure context for reliable clipboard access, so run it behind TLS in production.
+
+### GitHub Pages frontend
+
+The `Deploy GitHub Pages` workflow builds the frontend at `/aad/` and publishes it from the `main` branch. In the repository settings, enable **Pages** with **GitHub Actions** as the build and deployment source. Add a repository Actions variable named `VITE_API_URL` containing the HTTPS origin of a compatible QuickDrop backend (for example, `https://api.example.com`), then run the workflow or push to `main`. The frontend uses that backend for its API and Socket.IO connection.
+
+GitHub Pages hosts only the frontend. The backend in this repository is **not compatible with Vercel Functions as-is**: it requires persistent Socket.IO connections, shared in-memory session state, and local temporary file storage. Deploy the backend to a persistent Node.js host, or redesign it around external realtime, shared storage, and session services before using Vercel.
 
 ### Development
 

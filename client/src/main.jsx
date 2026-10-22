@@ -24,7 +24,7 @@ document.documentElement.style.colorScheme = initialTheme;
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
       <ThemeProvider initialTheme={initialTheme}>
         <App />
       </ThemeProvider>

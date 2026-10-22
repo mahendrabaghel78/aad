@@ -2,7 +2,9 @@ const configuredApiUrl = String(import.meta.env.VITE_API_URL || '').trim().repla
 const configuredPublicUrl = String(import.meta.env.VITE_PUBLIC_APP_URL || '').trim().replace(/\/+$/, '');
 
 export const API_BASE = configuredApiUrl;
-export const PUBLIC_APP_URL = configuredPublicUrl || window.location.origin;
+export const PUBLIC_APP_URL =
+  configuredPublicUrl ||
+  new URL(import.meta.env.BASE_URL, window.location.origin).toString().replace(/\/+$/, '');
 export const SOCKET_URL = API_BASE || window.location.origin;
 export const IS_LOCALHOST = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
 
@@ -28,7 +30,7 @@ export function shareUrl(sharePath, origin = PUBLIC_APP_URL) {
 
 export async function resolveShareOrigin() {
   if (configuredPublicUrl) return configuredPublicUrl;
-  if (!IS_LOCALHOST) return window.location.origin;
+  if (!IS_LOCALHOST) return PUBLIC_APP_URL;
 
   try {
     const response = await fetch('/api/network', { headers: { Accept: 'application/json' } });

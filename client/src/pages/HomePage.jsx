@@ -21,7 +21,7 @@ import {
 import TopBar from '../components/TopBar.jsx';
 import HeroVisual from '../components/HeroVisual.jsx';
 import Logo from '../components/Logo.jsx';
-import { api } from '../lib/api.js';
+import { api, ApiError } from '../lib/api.js';
 import { readErrorMessage } from '../lib/format.js';
 
 const STEPS = [
@@ -72,9 +72,18 @@ export default function HomePage() {
 
     try {
       const data = await api.createSession();
+      if (!data?.receiverToken) {
+        throw new Error(
+          'The QuickDrop API did not return a receiver link. Check that VITE_API_URL points to a compatible backend.',
+        );
+      }
       navigate(`/receive/${data.receiverToken}`);
     } catch (caught) {
-      setError(readErrorMessage(caught, 'Could not start a drop. Please try again.'));
+      const message =
+        caught instanceof ApiError && caught.status === 404
+          ? 'The QuickDrop API endpoint was not found. Set VITE_API_URL to a compatible, running backend; deploying the frontend to Vercel does not create the API.'
+          : readErrorMessage(caught, 'Could not start a drop. Please try again.');
+      setError(message);
       setStarting(false);
       startLock.current = false;
     }

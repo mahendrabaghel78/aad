@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/receive/:token",
+      "destination": "/"
+    },
+    {
+      "source": "/s/:token",
+      "destination": "/"
+    }
+  ]
+}

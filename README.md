@@ -51,6 +51,10 @@ The `Deploy GitHub Pages` workflow builds the frontend at `/aad/` and publishes 
 
 GitHub Pages hosts only the frontend. The backend in this repository is **not compatible with Vercel Functions as-is**: it requires persistent Socket.IO connections, shared in-memory session state, and local temporary file storage. Deploy the backend to a persistent Node.js host, or redesign it around external realtime, shared storage, and session services before using Vercel.
 
+### Vercel frontend
+
+To deploy just the frontend on Vercel, import the repository and set the project **Root Directory** to `client`. Vercel reads `client/vercel.json` to route receiver and sender links to the React app. Add `VITE_API_URL` as a Vercel environment variable with the HTTPS origin of a compatible, running QuickDrop backend, then redeploy. If this variable is missing or points to a host without the QuickDrop API, starting a drop will fail; Vercel frontend rewrites do not implement the backend. The Node/Socket.IO backend in this repository cannot run on Vercel Functions as-is (see above).
+
 ### Development
 
 ```bash
